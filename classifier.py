@@ -7,14 +7,24 @@ import matplotlib.pyplot as plt
 import io
 
 
-def load_image(url):
-    response = requests.get(url)
-    img = Image.open(io.BytesIO(response.content)).convert("RGB")
-    return img
+
+# Getting the Pre-trained model from Hugging Face
+processor = AutoImageProcessor.from_pretrained("dima806/133_dog_breeds_image_detection")
+model = AutoModelForImageClassification.from_pretrained("dima806/133_dog_breeds_image_detection")
+
+def load_image(path):
+#     response = requests.get(url)
+#     img = Image.open(io.BytesIO(response.content)).convert("RGB")
+    
+    image = Image.open(path)
+    
+    return image
 
 
-def get_breed(image):
+def get_breed(path):
 
+        
+    image = load_image(path)
     inputs = processor(images=image, return_tensors="pt")
 
     with torch.no_grad():
@@ -58,15 +68,3 @@ def get_breed(image):
         # Get the class label
         predicted_class_label = class_names[predicted_class_idx]
         print(f"Predicted breed: {predicted_class_label}")
-
-
-# Getting the Pre-trained model from Hugging Face
-processor = AutoImageProcessor.from_pretrained("dima806/133_dog_breeds_image_detection")
-model = AutoModelForImageClassification.from_pretrained("dima806/133_dog_breeds_image_detection")
-
-
-image_url = ""
-image = load_image(image_url)
-
-get_breed(image)
-

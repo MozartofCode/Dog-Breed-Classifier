@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Dog Picture</title>
+</head>
+<body>
+    <h1>Upload a Picture of Your Dog</h1>
+    <input type="file" id="fileInput">
+    <button onclick="uploadImage()">Upload</button>
+    
+    <script>
+        function uploadImage() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            
+            const formData = new FormData();
+            formData.append('image', file);
+
+            fetch('http://localhost:5000/api/classify', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Classification Result:', data.result);
+                // Handle the classification result here (e.g., display it on the webpage)
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Handle errors here
+            });
+        }
+    </script>
+</body>
+</html>
