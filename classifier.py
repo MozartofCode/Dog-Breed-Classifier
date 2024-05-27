@@ -68,3 +68,5 @@ def get_breed(path):
         # Get the class label
         predicted_class_label = class_names[predicted_class_idx]
         print(f"Predicted breed: {predicted_class_label}")
+
+        return predicted_class_label
