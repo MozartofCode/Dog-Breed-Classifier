@@ -24,8 +24,13 @@
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Classification Result:', data.result);
-                // Handle the classification result here (e.g., display it on the webpage)
+                if (data.error) {
+                    console.error('Error:', data.error);
+                    // Handle errors here
+                } else {
+                    const queryString = new URLSearchParams(data).toString();
+                    window.location.href = `http://localhost:5000/info?${queryString}`;
+                }
             })
             .catch(error => {
                 console.error('Error:', error);

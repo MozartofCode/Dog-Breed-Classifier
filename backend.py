@@ -38,9 +38,21 @@ def classify():
     # Call the function from classify.py to classify the image
     result = get_breed(file)
 
-    get_information(result)
+    dog_info = get_information(result)
     
-    return jsonify({'result': result})
+    if dog_info:
+        return jsonify(dog_info)
+    else:
+        return jsonify({'error': 'Breed information not found'}), 404
+
+
+@app.route('/info', methods=['GET'])
+def render_information():    
+    dog_info = request.args.to_dict()
+    return render_template('info.html', dog_info=dog_info)
+
+
+
 
 def get_information(breed):
 
@@ -63,17 +75,12 @@ def get_information(breed):
     if response.status_code == requests.codes.ok:
 
         dog_data = json.loads(response.text)
-
-        render_information(dog_data)
+        return dog_data[0]
 
     else:
         print("Error:", response.status_code, response.text)
+        return None
 
-
-@app.route('/info', methods=['GET'])
-def render_information(dog_info):    
-    print("Rendering information...")
-    return render_template('info.html', dog_info= dog_info)
 
 if __name__ == '__main__':
     app.run(debug=True)
