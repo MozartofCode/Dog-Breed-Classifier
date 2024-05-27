@@ -13,7 +13,8 @@ from pymongo import MongoClient
 from pymongo.mongo_client import MongoClient
 import certifi
 from classifier import get_breed
-
+import json
+from flask import render_template
 
 
 # API key for dog breed information from API ninjas
@@ -60,13 +61,19 @@ def get_information(breed):
     response = requests.get(api_url, headers={'X-Api-Key': API_KEY})
 
     if response.status_code == requests.codes.ok:
-        print(response.text)
+
+        dog_data = json.loads(response.text)
+
+        render_information(dog_data)
+
     else:
         print("Error:", response.status_code, response.text)
 
-    
-    return
 
+@app.route('/info', methods=['GET'])
+def render_information(dog_info):    
+    print("Rendering information...")
+    return render_template('info.html', dog_info= dog_info)
 
 if __name__ == '__main__':
     app.run(debug=True)
