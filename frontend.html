@@ -9,7 +9,7 @@
     <h1>Upload a Picture of Your Dog</h1>
     <input type="file" id="fileInput">
     <button onclick="uploadImage()">Upload</button>
-    
+
     <script>
         function uploadImage() {
             const fileInput = document.getElementById('fileInput');
@@ -22,19 +22,21 @@
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    console.error('Error:', data.error);
-                    // Handle errors here
+            .then(response => {
+                if (response.redirected) {
+                    window.location.href = response.url;
                 } else {
-                    const queryString = new URLSearchParams(data).toString();
-                    window.location.href = `http://localhost:5000/info?${queryString}`;
+                    return response.json();
+                }
+            })
+            .then(data => {
+                if (data && data.error) {
+                    alert('Error: ' + data.error);
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                // Handle errors here
+                alert('Error uploading image.');
             });
         }
     </script>

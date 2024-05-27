@@ -5,26 +5,27 @@
 #
 
 import requests
-from flask import request
+from flask import redirect, request, send_from_directory, url_for
 from flask import Flask, jsonify
 from flask_cors import CORS
-import base64
-from pymongo import MongoClient
-from pymongo.mongo_client import MongoClient
-import certifi
 from classifier import get_breed
 import json
 from flask import render_template
-
+import os
 
 # API key for dog breed information from API ninjas
 API_KEY = ""
-
+UPLOAD_FOLDER = "uploads"
 
 
 # Create a Flask app
 app = Flask(__name__)
 CORS(app)
+
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(os.path.join(app.root_path, UPLOAD_FOLDER), filename)
 
 
 @app.route('/api/classify', methods=['POST'])
@@ -35,23 +36,24 @@ def classify():
 
     file = request.files['image']
     
+    # Save the uploaded file
+    file_path = os.path.join(UPLOAD_FOLDER, file.filename)
+    file.save(file_path)
+
+
+
     # Call the function from classify.py to classify the image
     result = get_breed(file)
 
     dog_info = get_information(result)
     
-    if dog_info:
-        return jsonify(dog_info)
-    else:
-        return jsonify({'error': 'Breed information not found'}), 404
-
+    return redirect(url_for('render_information', dog_info=json.dumps(dog_info), image_url=f'uploads/{file.filename}'))
 
 @app.route('/info', methods=['GET'])
-def render_information():    
-    dog_info = request.args.to_dict()
-    return render_template('info.html', dog_info=dog_info)
-
-
+def render_information():
+    dog_info = json.loads(request.args.get('dog_info'))
+    image_url = request.args.get('image_url')
+    return render_template('info.html', dog_info=dog_info, image_url=image_url)
 
 
 def get_information(breed):
