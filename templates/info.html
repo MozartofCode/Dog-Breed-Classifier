@@ -4,34 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dog Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+      
+        }
+
+        .container {
+            margin-top: 45px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            max-width: 800px;
+        }
+
+        .dog-image {
+            max-width: 300px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-right: 20px;
+            margin-top: 120px;
+        }
+
+        .dog-info {
+            flex: 1;
+            text-align: left;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            align-items: left;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Dog Information</h1>
-    <div>
-        <img id="dogImage" style="max-width: 300px;" alt="Uploaded Dog Image" src="{{ image_url }}">
-        <p>Name: {{ dog_info['name'] }}</p>
-        <p>Good with Children: {{ dog_info['good_with_children'] }}</p>
-        <p>Good with Other Dogs: {{ dog_info['good_with_other_dogs'] }}</p>
-        <p>Shedding: {{ dog_info['shedding'] }}</p>
-        <p>Grooming: {{ dog_info['grooming'] }}</p>
-        <p>Drooling: {{ dog_info['drooling'] }}</p>
-        <p>Coat Length: {{ dog_info['coat_length'] }}</p>
-        <p>Good with Strangers: {{ dog_info['good_with_strangers'] }}</p>
-        <p>Playfulness: {{ dog_info['playfulness'] }}</p>
-        <p>Protectiveness: {{ dog_info['protectiveness'] }}</p>
-        <p>Trainability: {{ dog_info['trainability'] }}</p>
-        <p>Energy: {{ dog_info['energy'] }}</p>
-        <p>Barking: {{ dog_info['barking'] }}</p>
-        <p>Min Life Expectancy: {{ dog_info['min_life_expectancy'] }}</p>
-        <p>Max Life Expectancy: {{ dog_info['max_life_expectancy'] }}</p>
-        <p>Max Height Male: {{ dog_info['max_height_male'] }}</p>
-        <p>Max Height Female: {{ dog_info['max_height_female'] }}</p>
-        <p>Max Weight Male: {{ dog_info['max_weight_male'] }}</p>
-        <p>Max Weight Female: {{ dog_info['max_weight_female'] }}</p>
-        <p>Min Height Male: {{ dog_info['min_height_male'] }}</p>
-        <p>Min Height Female: {{ dog_info['min_height_female'] }}</p>
-        <p>Min Weight Male: {{ dog_info['min_weight_male'] }}</p>
-        <p>Min Weight Female: {{ dog_info['min_weight_female'] }}</p>
+    <div class="container">
+        <img class="dog-image" id="dogImage" src="{{ image_url }}" alt="Uploaded Dog Image">
+        
+        <div class="dog-info">
+            <p>Breed: {{ dog_info['name'] }}</p>
+            <p>Good with Children: {{ dog_info['good_with_children'] }}</p>
+            <p>Good with Other Dogs: {{ dog_info['good_with_other_dogs'] }}</p>
+            <p>Good with Strangers: {{ dog_info['good_with_strangers'] }}</p>
+            <p>Playfulness: {{ dog_info['playfulness'] }}</p>
+            <p>Protectiveness: {{ dog_info['protectiveness'] }}</p>
+            <p>Trainability: {{ dog_info['trainability'] }}</p>
+            <p>Energy: {{ dog_info['energy'] }}</p>
+            <p>Barking: {{ dog_info['barking'] }}</p>
+            <p>Life Expectancy: {{ dog_info['min_life_expectancy'] }} - {{ dog_info['max_life_expectancy'] }} years</p>
+            <p>Male Height: {{ dog_info['min_height_male'] }} - {{ dog_info['max_height_male'] }} inches</p>
+            <p>Female Height: {{ dog_info['min_height_female'] }} - {{ dog_info['max_height_female'] }} inches</p>
+            <p>Male Weight:  {{ dog_info['min_weight_male'] }} - {{ dog_info['max_weight_male'] }} pounds</p>
+            <p>Female Weight: {{ dog_info['min_weight_female'] }} - {{ dog_info['max_weight_female'] }} pounds</p>
+        </div>
     </div>
 </body>
 </html>
